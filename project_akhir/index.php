@@ -4,23 +4,33 @@
         $pengarang = htmlentities(strip_tags(trim($_POST['pengarang'])));
         $tipe = htmlentities(strip_tags(trim($_POST['tipe'])));
         $jum_hal = htmlentities(strip_tags(trim($_POST['jum_hal'])));
-        $cover = $_FILES;
-        
-        include('koneksi.php');
-        $query ="INSERT INTO buku(judul,pengarang,jenis,jumhal) VALUES(?,?,?,?)";
-        $stmt = mysqli_prepare($konek, $query);
-        mysqli_stmt_bind_param($stmt,"sssi", $judul, $pengarang, $tipe, $jum_hal);
-       
-        $sukses = mysqli_stmt_execute($stmt);
-        if(!$sukses){
-            die('Query error: '.mysqli_errno($konek).' - '.mysqli_error($konek));
-        }else{
-            echo "Data berhasil disimpan!";
-        }
-        mysqli_stmt_close($stmt);
-        mysqli_close($konek);
+        $temp       = $_FILES['cover']['tmp_name'];
+        $name       = $_FILES['cover']['name'];
+        $size       = $_FILES['cover']['size'];
+        $type       = $_FILES['cover']['type'];
+        $folder     = "./covers/";
 
+        if($type == 'image/jpg' or $type == 'image/png' or $type == 'image/jpeg'){
+            move_uploaded_file($temp, $folder.$name);
+            include('koneksi.php');
+            $query ="INSERT INTO buku(judul,pengarang,jenis,jumhal,cover) VALUES(?,?,?,?,?)";
+            $stmt = mysqli_prepare($konek, $query);
+            mysqli_stmt_bind_param($stmt,"sssis", $judul, $pengarang, $tipe, $jum_hal, $name);
+        
+            $sukses = mysqli_stmt_execute($stmt);
+            if(!$sukses){
+                die('Query error: '.mysqli_errno($konek).' - '.mysqli_error($konek));
+            }else{
+                echo "Data berhasil disimpan!";
+            }
+            mysqli_stmt_close($stmt);
+            mysqli_close($konek);
+        }else{
+            echo 'Tipe file salah.';
+        }
+        header("location:index.php");
         die();
+        
     }
 
 ?>
