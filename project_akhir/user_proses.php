@@ -4,7 +4,7 @@
     $rule = trim($_POST['rule']);
     
     include('koneksi.php');
-    $query ="INSERT INTO users(username,password,rule) VALUES('$pengguna',MD5('$sandi'),'$rule')";
+    $query ="INSERT INTO users(username,password,rule) VALUES('$pengguna',SHA1('$sandi'),'$rule')";
     $hasil = mysqli_query($konek, $query);
     if(!$hasil){
         die('Query error: '.mysqli_errno($konek).' - '.mysqli_error($konek));

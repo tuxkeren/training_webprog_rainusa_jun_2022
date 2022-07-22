@@ -1,6 +1,6 @@
 <?php
 // membuat koneksi ke database
-$konek = mysqli_connect('localhost','atha','atha123');
+$konek = mysqli_connect('localhost','root','');
 
 if(!$konek){
     die("Koneksi dengan database gagal: ".mysqli_connect_errno()." - ".mysqli_connect_error());

@@ -1,4 +1,5 @@
 <?php
+    session_start();
     if(isset($_POST["submit"])){
         $judul = htmlentities(strip_tags(trim($_POST['judul'])));
         $pengarang = htmlentities(strip_tags(trim($_POST['pengarang'])));
@@ -44,7 +45,11 @@
 <body>
     <div class="container">
         <h1>Rekam data Buku Rainusa</h1>
-        <?php include('menu.php') ?>
+        <?php include('menu.php'); 
+            $user = $_SESSION['username'];
+            echo $user;
+        ?>
+
         <form action="index.php" method="post" enctype="multipart/form-data">
          <fieldset>
              <legend>Rekam Data Buku</legend>
