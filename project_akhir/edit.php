@@ -1,4 +1,5 @@
 <?php
+session_start();
     $id = $_GET['id'];
     include('koneksi.php');
     // Mengambil data buku dari database
@@ -14,6 +15,15 @@
 <head>
     <link rel="stylesheet" href="style.css">
     <title>Operasi Database</title>
+    <style>
+        div.container {
+            width: 1000px;
+            padding: 10px 80px 30px;
+            background-color: white;
+            margin: 20px auto;
+            box-shadow: 1px 0px 10px, -1px 0px 10px ;
+        }
+    </style>
 </head>
 <body>
     <div class="container">

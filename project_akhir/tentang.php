@@ -1,6 +1,5 @@
 <?php
-
-    // die();
+ session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,13 +8,15 @@
     body {
         background-color: #F8F8F8;
     }
-        div.container {
-        width: 500px;
+
+    div.container {
+        width: 1000px;
         padding: 10px 80px 30px;
         background-color: white;
         margin: 20px auto;
         box-shadow: 1px 0px 10px, -1px 0px 10px ;
     }
+
     h1 {
         text-align: center;
         font-family: Cambria, "Times New Roman", serif;
@@ -78,7 +79,26 @@
 <body>
     <div class="container">
         <h1>Tentang Program</h1>
-        <?php include('menu.php') ?>
+        <?php
+            // menampilkan menu susuai rule
+            $nama = $_SESSION['name'];
+            include('koneksi.php');
+            $sql = "SELECT rule FROM users WHERE username='$nama'";
+            $hasil_query = mysqli_query($konek, $sql);
+            if(!$hasil_query){
+                die("Query gagal dijalankan: ".mysqli_errno($konek)." - ".mysqli_error($konek));
+            }else{
+                while ($data = mysqli_fetch_assoc($hasil_query)){
+                    if($data['rule'] == 'admin'){
+                        include('menu.php');
+                    }elseif($data['rule'] == 'staff'){
+                        include('menu_staff.php');
+                    }else{
+                        include('menu_kasir.php');
+                    }
+                }
+            }
+        ?>
         <p>
             Program ini adalah lorem ipsum...
         </p>

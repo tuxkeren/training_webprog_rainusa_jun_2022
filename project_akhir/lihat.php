@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     include('koneksi.php');
     // die();
 ?>
@@ -20,7 +22,26 @@
 <body>
     <div class="container">
         <h1>Daftar Data Buku Rainusa</h1>
-        <?php include('menu.php') ?>
+        <?php
+            // menampilkan menu susuai rule
+            $nama = $_SESSION['name'];
+            include('koneksi.php');
+            $sql = "SELECT rule FROM users WHERE username='$nama'";
+            $hasil_query = mysqli_query($konek, $sql);
+            if(!$hasil_query){
+                die("Query gagal dijalankan: ".mysqli_errno($konek)." - ".mysqli_error($konek));
+            }else{
+                while ($data = mysqli_fetch_assoc($hasil_query)){
+                    if($data['rule'] == 'admin'){
+                        include('menu.php');
+                    }elseif($data['rule'] == 'staff'){
+                        include('menu_staff.php');
+                    }else{
+                        include('menu_kasir.php');
+                    }
+                }
+            }
+        ?>
         <table>
             <th>
                 <td><strong>JUDUL BUKU</strong></td>
